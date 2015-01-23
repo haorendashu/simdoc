@@ -39,8 +39,7 @@ func main() {
 
 	r.HandleFunc("/", handlerWrapper(routers.Index))
 	r.HandleFunc("/list/", handlerWrapper(routers.List))
-	r.HandleFunc("/doc/", handlerWrapper(routers.Doc))
-	r.HandleFunc("/doc/{path}", handlerWrapper(routers.Doc))
+	r.PathPrefix("/doc/").HandlerFunc(handlerWrapper(routers.Doc))
 
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 	serveSingle("/favicon.ico", "./static/favicon.ico")

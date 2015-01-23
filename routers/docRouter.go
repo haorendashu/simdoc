@@ -3,19 +3,19 @@ package routers
 import (
 	"github.com/flosch/pongo2"
 	"net/http"
-	"github.com/gorilla/mux"
 	"github.com/russross/blackfriday"
 	"os"
-	"io/ioutil"
 	"path/filepath"
 	"github.com/haorendashu/simdoc/sdcomm"
+	"io/ioutil"
+	"strings"
 )
 
 func Doc(w http.ResponseWriter, r *http.Request, m pongo2.Context) {
 	docTpl := pongo2.Must(pongo2.FromFile("views/doc.html"))
 
-	vars := mux.Vars(r)
-	path := vars["path"]
+	path :=  r.URL.Path
+	path = strings.Replace(path, "/doc/", "", 1)
 	if path == "" {
 		path = "README.md"
 	}
@@ -32,9 +32,20 @@ func Doc(w http.ResponseWriter, r *http.Request, m pongo2.Context) {
 			return
 		}
 	}
+	defer file.Close()
+
+	// check if is dir
+	fileInfo, err := os.Stat(path)
+	if err != nil {
+		Return500(w)
+		return
+	}
+	if fileInfo.IsDir() {
+		listPath(w, m, path)
+		return
+	}
 
 	data, err := ioutil.ReadAll(file)
-	defer file.Close()
 	if err != nil {
 		sdcomm.Logger.Println(err)
 		Return500(w)
