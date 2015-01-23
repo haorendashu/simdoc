@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>simdoc_list</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/static/css/main.css" />
+</head>
+<body>
+<div id="content">
+    <ul>
+        {% for path in paths %}
+        <li><a href="/doc/{{path}}" target="docFrame">{{path}}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>
