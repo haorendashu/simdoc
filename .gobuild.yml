@@ -1,0 +1,18 @@
+author: 385321165@qq.com
+description: A simple server to show docs.
+
+filesets:
+    depth: 10
+    includes:
+        - docs
+        - static
+        - views
+        - README.md
+    excludes:
+        - \.git
+settings:
+        targetdir: ""
+        build: |
+            test -d Godeps && go(){ godep go "$@";} ; go install -v
+        outfiles:
+            - simdoc
