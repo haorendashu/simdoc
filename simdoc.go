@@ -45,9 +45,12 @@ func main() {
 	serveSingle("/favicon.ico", "./static/favicon.ico")
 	http.Handle("/", r)
 
+	sdcomm.Logger.Printf("server would start at port %s.\n", port)
+	sdcomm.Logger.Printf("doc base path is %s.\n", rootPath)
+
 	err := http.ListenAndServe(":"+port, nil)
 	if err != nil {
-
+		sdcomm.Logger.Fatalln(err)
 	}
 }
 
