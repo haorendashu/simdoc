@@ -6,6 +6,7 @@ import (
 	"github.com/haorendashu/simdoc/sdcomm"
 	"path/filepath"
 	"os"
+	"strings"
 )
 
 func List(w http.ResponseWriter, r *http.Request, m pongo2.Context) {
@@ -22,6 +23,14 @@ func listPath(w http.ResponseWriter, m pongo2.Context, rootPath string) {
 				return nil
 			}
 			if path == "." {
+				return nil
+			}
+			index := strings.Index(path, ".svn")
+			if index > -1 {
+				return nil
+			}
+			index = strings.Index(path, ".git")
+			if index > -1 {
 				return nil
 			}
 			paths = append(paths, path)
